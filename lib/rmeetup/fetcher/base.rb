@@ -30,6 +30,7 @@ module RMeetup
         url = build_url(options)
         
         json = get_response(url)
+        json = json.encode('utf-8', 'binary', :invalid => :replace, :undef => :replace)
         data = JSON.parse(json)
         
         # Check to see if the api returned an error
