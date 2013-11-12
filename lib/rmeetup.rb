@@ -36,6 +36,14 @@ module RMeetup
     @@api_key = nil
     def self.api_key; @@api_key; end;
     def self.api_key=(key); @@api_key = key; end;
+
+    # requested Meetup API Version
+    # If set, the gem will attempt to use this
+    # version of the API. If not set, the maximum
+    # version for any particular type will be used.
+    @@api_version = nil
+    def self.api_version; @@api_version; end;
+    def self.api_version=(version); @@api_version = version; end;
     
     def self.fetch(type, options = {})
       check_configuration!
@@ -46,7 +54,7 @@ module RMeetup
       
       if FETCH_TYPES.include?(type.to_sym)
         # Get the custom fetcher used to manage options, api call to get a type of response
-        fetcher = RMeetup::Fetcher.for(type)
+        fetcher = RMeetup::Fetcher.for(type, api_version)
         return fetcher.fetch(options)
       else
         raise InvalidRequestTypeError.new(type)

@@ -12,25 +12,25 @@ module RMeetup
   module Fetcher
     
     class << self
-      # Return a fetcher for given type
-      def for(type)
+      # Return a fetcher for given type/API version
+      def for(type, api_version = nil)
         return  case type.to_sym
                 when :topics
-                  Topics.new
+                  Topics.new(api_version)
                 when :cities      
-                  Cities.new
+                  Cities.new(api_version)
                 when :members     
-                  Members.new
+                  Members.new(api_version)
                 when :rsvps       
-                  Rsvps.new
+                  Rsvps.new(api_version)
                 when :events      
-                  Events.new
+                  Events.new(api_version)
                 when :groups      
-                  Groups.new
+                  Groups.new(api_version)
                 when :comments    
-                  Comments.new
+                  Comments.new(api_version)
                 when :photos
-                  Photos.new
+                  Photos.new(api_version)
                 end
       end 
     end

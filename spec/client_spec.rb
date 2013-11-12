@@ -29,7 +29,7 @@ describe RMeetup::Client, 'fetching some topics' do
   end
   
   it 'should try to get a Topic Fetcher' do
-    RMeetup::Fetcher.should_receive(:for).with(@type).and_return(@topics_fetcher)
+    RMeetup::Fetcher.should_receive(:for).with(@type, nil).and_return(@topics_fetcher)
     RMeetup::Client.fetch(@type,{})
   end
 end

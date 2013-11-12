@@ -8,7 +8,7 @@ describe RMeetup::Fetcher::Members, 'fetching some Members' do
   
   it 'should return a collection of Members' do
     @fetcher.fetch.each do |result|
-      result.should be_kind_of(RMeetup::Type::Member)
+      result.should be_kind_of(RMeetup::Type::V1::Member)
     end
   end
 end

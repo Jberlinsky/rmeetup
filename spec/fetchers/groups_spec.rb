@@ -8,7 +8,7 @@ describe RMeetup::Fetcher::Groups, 'fetching some Groups' do
   
   it 'should return a collection of Groups' do
     @fetcher.fetch.each do |result|
-      result.should be_kind_of(RMeetup::Type::Group)
+      result.should be_kind_of(RMeetup::Type::V1::Group)
     end
   end
 end

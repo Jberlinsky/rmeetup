@@ -8,7 +8,7 @@ describe RMeetup::Fetcher::Photos, 'fetching some Photos' do
   
   it 'should return a collection of Photos' do
     @fetcher.fetch.each do |result|
-      result.should be_kind_of(RMeetup::Type::Photo)
+      result.should be_kind_of(RMeetup::Type::V1::Photo)
     end
   end
 end
