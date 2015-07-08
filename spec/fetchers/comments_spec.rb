@@ -8,7 +8,7 @@ describe RMeetup::Fetcher::Comments, 'fetching some Comments' do
   
   it 'should return a collection of Comments' do
     @fetcher.fetch.each do |result|
-      result.should be_kind_of(RMeetup::Type::Comment)
+      result.should be_kind_of(RMeetup::Type::V1::Comment)
     end
   end
 end

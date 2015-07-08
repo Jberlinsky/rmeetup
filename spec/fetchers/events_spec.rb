@@ -8,7 +8,7 @@ describe RMeetup::Fetcher::Events, 'fetching some Events' do
   
   it 'should return a collection of Events' do
     @fetcher.fetch.each do |result|
-      result.should be_kind_of(RMeetup::Type::Event)
+      result.should be_kind_of(RMeetup::Type::V2::Event)
     end
   end
 end

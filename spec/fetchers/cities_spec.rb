@@ -8,7 +8,7 @@ describe RMeetup::Fetcher::Cities, 'fetching some Cities' do
   
   it 'should return a collection of Cities' do
     @fetcher.fetch.each do |result|
-      result.should be_kind_of(RMeetup::Type::City)
+      result.should be_kind_of(RMeetup::Type::V1::City)
     end
   end
   

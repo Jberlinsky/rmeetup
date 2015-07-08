@@ -17,7 +17,13 @@ module RMeetup
     # Base fetcher class that other fetchers 
     # will inherit from.
     class Base
-      def initialize
+      MAX_API_VERSION = nil
+      def initialize(api_version = nil)
+        @api_version = if api_version
+          self.class::MAX_API_VERSION && [api_version, self.class::MAX_API_VERSION].min
+        else
+          self.class::MAX_API_VERSION
+        end
         @type = nil
       end
       
@@ -57,7 +63,8 @@ module RMeetup
         end
       
         def base_url
-          "http://api.meetup.com/#{@type}.json/"
+          versioned_url = "#{@api_version}/" if @api_version.to_i > 1
+          "http://api.meetup.com/#{versioned_url}#{@type}.json/"
         end
         
         # Create a query string from an options hash

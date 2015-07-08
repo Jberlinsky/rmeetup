@@ -8,7 +8,7 @@ describe RMeetup::Fetcher::Topics, 'fetching some Topics' do
   
   it 'should return a collection of Topics' do
     @fetcher.fetch.each do |result|
-      result.should be_kind_of(RMeetup::Type::Topic)
+      result.should be_kind_of(RMeetup::Type::V1::Topic)
     end
   end
 end
