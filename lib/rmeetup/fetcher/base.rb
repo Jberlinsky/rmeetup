@@ -57,7 +57,9 @@ module RMeetup
         end
       
         def base_url
-          "http://api.meetup.com/#{@type}.json/"
+          url = "http://api.meetup.com/"
+          url += "#{@type}/" unless @type.nil?
+          url
         end
         
         # Create a query string from an options hash
