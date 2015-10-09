@@ -1,0 +1,20 @@
+{
+  "results": [
+    {
+      "id": "1",
+      "name": "Art"
+    }
+  ],
+  "meta": {
+    "lon": "",
+    "count": 1,
+    "total_count": 1,
+    "url": "http:\/\/api.meetup.com\/groups\/?order=ctime&radius=25&topic=ruby&key=76263c7795604631828d4b2e761b&page=10&format=json&offset=0",
+    "id": "",
+    "title": "Meetup Categories",
+    "updated": "2008-10-31 18:31:20 EDT",
+    "description": "API method for accessing meetup groups",
+    "method": "Groups",
+    "lat": ""
+  }
+}
