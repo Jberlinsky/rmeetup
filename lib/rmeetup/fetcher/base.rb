@@ -17,7 +17,7 @@ module RMeetup
     # Base fetcher class that other fetchers 
     # will inherit from.
     class Base
-      MAX_API_VERSION = nil
+      MAX_API_VERSION = 2
       def initialize(api_version = nil)
         @api_version = if api_version
           self.class::MAX_API_VERSION && [api_version, self.class::MAX_API_VERSION].min
