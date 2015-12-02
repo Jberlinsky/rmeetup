@@ -1,6 +1,6 @@
 = rMeetup
 
-A simple Ruby gem to access the Meetup API.
+A simple Ruby gem to access the Meetup API. With minor fixes
 
 == Code Sample
 
