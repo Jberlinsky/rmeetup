@@ -9,7 +9,7 @@ TEST_ROOT = File.dirname(__FILE__)
 # the API. Some of the spec require access to the API.
 # You can get your API key by loging in to meetup.com
 # and looking in your account info.
-API_KEY = '4824d125e1c13f6253694f65383d33' #nil
+API_KEY = '76263c7795604631828d4b2e761b' #nil
 
 # Don't let the specs run without an API key
 raise StandardError, 'Please enter your Meetup API key in the spec_helper.rb file to be used for testing purposes.' unless API_KEY
@@ -78,5 +78,12 @@ module RMeetup::FakeResponse
       def get_response(url)
         File.read(File.join(TEST_ROOT, 'responses', 'topics.json'))
       end
+  end
+
+  module Categories
+    protected
+    def get_response(url)
+      File.read(File.join(TEST_ROOT, 'responses', 'categories.json'))
+    end
   end
 end

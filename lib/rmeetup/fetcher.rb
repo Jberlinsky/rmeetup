@@ -7,6 +7,7 @@ require "rmeetup/fetcher/events"
 require "rmeetup/fetcher/groups"
 require "rmeetup/fetcher/comments"
 require "rmeetup/fetcher/photos"
+require "rmeetup/fetcher/categories"
 
 module RMeetup
   module Fetcher
@@ -31,6 +32,8 @@ module RMeetup
                   Comments.new(api_version)
                 when :photos
                   Photos.new(api_version)
+                when :categories
+                  Categories.new(api_version)
                 end
       end 
     end
