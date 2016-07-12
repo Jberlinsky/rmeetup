@@ -12,7 +12,7 @@ module RMeetup
   # RMeetup Errors
   class NotConfiguredError < StandardError
     def initialize
-      super "Please provide your Meetup API key before fetching data."
+      super "Please provide your Meetup API key or token before fetching data."
     end
   end
 
@@ -37,6 +37,11 @@ module RMeetup
     @@api_key = nil
     def self.api_key; @@api_key; end;
     def self.api_key=(key); @@api_key = key; end;
+
+    # Meetup Oauth Token
+    @@token = nil
+    def self.token; @@token; end;
+    def self.token=(token); @@token = token; end;
 
     # requested Meetup API Version
     # If set, the gem will attempt to use this
@@ -64,15 +69,29 @@ module RMeetup
 
     protected
       def self.default_options
+        if token
+          token_option
+        else
+          key_option
+        end
+      end
+
+      def self.token_option
         {
-          :key => api_key
+            :token => token
+        }
+      end
+
+      def self.key_option
+        {
+            :key => api_key
         }
       end
 
       # Raise an error if RMeetup has not been
       # provided with an api key
       def self.check_configuration!
-        raise NotConfiguredError.new unless api_key
+        raise NotConfiguredError.new unless api_key || token
       end
   end
 end
