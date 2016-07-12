@@ -18,11 +18,17 @@ module RMeetup
     # will inherit from.
     class Base
       MAX_API_VERSION = nil
+      MIN_API_VERSION = nil
       def initialize(api_version = nil)
         @api_version = if api_version
-          self.class::MAX_API_VERSION && [api_version, self.class::MAX_API_VERSION].min
+           [api_version, self.class::MAX_API_VERSION].min if self.class::MAX_API_VERSION
         else
-          self.class::MAX_API_VERSION
+          # if self.class::MIN_API_VERSION
+          #   self.class::MIN_API_VERSION
+          # else
+          #   self.class::MAX_API_VERSION
+          # end
+          self.class::MIN_API_VERSION ? self.class::MIN_API_VERSION : self.class::MAX_API_VERSION
         end
         @type = nil
       end
