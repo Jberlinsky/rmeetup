@@ -15,6 +15,10 @@ module RMeetup
       def base_url
         'https://api.meetup.com/self/groups/'
       end
+
+      def build_collection(data)
+        data
+      end
     end
   end
 end

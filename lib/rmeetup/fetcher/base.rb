@@ -40,13 +40,17 @@ module RMeetup
         
         # Check to see if the api returned an error
         raise ApiError.new(data['details'],url) if data.has_key?('problem')
-        
-        collection = RMeetup::Collection.build(data)
+
+        collection = build_collection(data)
         
         # Format each result in the collection and return it
         collection.map!{|result| format_result(result)}
       end
-      
+
+      def build_collection(data)
+        RMeetup::Collection.build(data)
+      end
+
       protected
         # OVERRIDE this method to format a result section
         # as per Result type.
