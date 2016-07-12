@@ -64,7 +64,7 @@ module RMeetup
       
         def base_url
           versioned_url = "#{@api_version}/" if @api_version.to_i > 1
-          "http://api.meetup.com/#{versioned_url}#{@type}.json/"
+          "https://api.meetup.com/#{versioned_url}#{@type}.json/"
         end
         
         # Create a query string from an options hash
