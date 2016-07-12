@@ -36,10 +36,11 @@ module RMeetup
         url = build_url(options)
         
         json = get_response(url)
-        data = JSON.parse(json) rescue []
+        data = JSON.parse(json) rescue {}
         
         # Check to see if the api returned an error
-        raise ApiError.new(data['details'],url) if data.has_key?('problem')
+        raise ApiError.new('Received no data', url) if data.is_a? Hash and data.empty?
+        raise ApiError.new(data['details'],url) if data.is_a? Hash and data.has_key?('problem')
 
         collection = build_collection(data)
         
