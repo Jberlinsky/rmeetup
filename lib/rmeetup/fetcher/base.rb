@@ -36,7 +36,7 @@ module RMeetup
         url = build_url(options)
         
         json = get_response(url)
-        data = JSON.parse(json)
+        data = JSON.parse(json) rescue []
         
         # Check to see if the api returned an error
         raise ApiError.new(data['details'],url) if data.has_key?('problem')
