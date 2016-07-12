@@ -5,7 +5,7 @@ require 'rmeetup/fetcher/members'
 require 'rmeetup/fetcher/rsvps'
 require 'rmeetup/fetcher/events'
 require 'rmeetup/fetcher/groups'
-require 'rmeetup/fetcher/self_groups'
+require 'rmeetup/fetcher/member_groups'
 require 'rmeetup/fetcher/comments'
 require 'rmeetup/fetcher/photos'
 
@@ -28,8 +28,8 @@ module RMeetup
                   Events.new(api_version)
                 when :groups      
                   Groups.new(api_version)
-                when :self_groups
-                  SelfGroups.new(api_version)
+                when :member_groups
+                  MemberGroups.new(api_version)
                 when :comments    
                   Comments.new(api_version)
                 when :photos

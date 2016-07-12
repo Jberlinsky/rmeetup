@@ -1,6 +1,6 @@
 module RMeetup
   module Fetcher
-    class SelfGroups < Base
+    class MemberGroups < Base
       MAX_API_VERSION = 3
       def initialize(api_version = nil)
         super(api_version) # no support for API versioning yet
