@@ -1,12 +1,13 @@
-require "rmeetup/fetcher/base"
-require "rmeetup/fetcher/topics"
-require "rmeetup/fetcher/cities"
-require "rmeetup/fetcher/members"
-require "rmeetup/fetcher/rsvps"
-require "rmeetup/fetcher/events"
-require "rmeetup/fetcher/groups"
-require "rmeetup/fetcher/comments"
-require "rmeetup/fetcher/photos"
+require 'rmeetup/fetcher/base'
+require 'rmeetup/fetcher/topics'
+require 'rmeetup/fetcher/cities'
+require 'rmeetup/fetcher/members'
+require 'rmeetup/fetcher/rsvps'
+require 'rmeetup/fetcher/events'
+require 'rmeetup/fetcher/groups'
+require 'rmeetup/fetcher/self_groups'
+require 'rmeetup/fetcher/comments'
+require 'rmeetup/fetcher/photos'
 
 module RMeetup
   module Fetcher
@@ -27,6 +28,8 @@ module RMeetup
                   Events.new(api_version)
                 when :groups      
                   Groups.new(api_version)
+                when :self_groups
+                  SelfGroups.new(api_version)
                 when :comments    
                   Comments.new(api_version)
                 when :photos
