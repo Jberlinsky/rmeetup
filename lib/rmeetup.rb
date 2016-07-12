@@ -78,7 +78,8 @@ module RMeetup
 
       def self.token_option
         {
-            :token => token
+            :token => token,
+            :sign => true
         }
       end
 
