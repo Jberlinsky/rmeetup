@@ -2,7 +2,6 @@ module RMeetup
   module Fetcher
     class Groups < Base
       MAX_API_VERSION = 2
-      MIN_API_VERSION = 1
       def initialize(api_version = nil)
         super(api_version)
         @type = :groups

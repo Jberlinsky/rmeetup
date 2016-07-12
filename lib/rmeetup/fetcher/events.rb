@@ -7,7 +7,7 @@ module RMeetup
         @type = :events
       end
       
-      # Turn the result hash into a Event Class
+      # Turn the result hash into an Event Class
       def format_result(result)
         if @api_version == 1
           RMeetup::Type::V1::Event.new(result)
