@@ -5,7 +5,7 @@ module RMeetup
       MIN_API_VERSION = 3
       def initialize(api_version = nil)
         super(api_version) # no support for API versioning yet
-        @type = :groups
+        @type = 'self/groups'
       end
       
       # Turn the result hash into a Group Class

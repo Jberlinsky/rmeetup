@@ -5,7 +5,7 @@ module RMeetup
       MAX_API_VERSION = 2
       def initialize(api_version = nil)
         super(api_version) # no support for API versioning yet
-        @type = :topics
+        @type = :topic_categories
       end
       
       # Turn the result hash into a Topic Class
