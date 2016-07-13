@@ -10,7 +10,7 @@ module RMeetup
       
       # Turn the result hash into a Topic Class
       def format_result(result)
-        RMeetup::Type::V1::TopicCategory.new(result)
+        RMeetup::Type::V2::TopicCategory.new(result)
       end
     end
   end
