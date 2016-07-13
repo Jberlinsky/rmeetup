@@ -1,5 +1,6 @@
 require 'rmeetup/type/base'
 require 'rmeetup/type/v1/topic'
+require 'rmeetup/type/v2/topic_category'
 require 'rmeetup/type/v1/group'
 require 'rmeetup/type/v2/group'
 require 'rmeetup/type/v3/group'

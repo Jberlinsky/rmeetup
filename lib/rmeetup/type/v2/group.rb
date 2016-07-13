@@ -13,7 +13,7 @@ module RMeetup
 
       class Group < RMeetup::Type::Base
 
-        def event
+        def group
           @obj
         end
 
