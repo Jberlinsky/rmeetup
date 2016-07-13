@@ -1,6 +1,6 @@
 module RMeetup
   class Collection < Array
-    attr_accessor :page_size, :total_results
+    attr_accessor :page_size, :total_results, :raw_meta
     attr_writer   :current_page
     
     def self.build(response)
