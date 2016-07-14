@@ -40,12 +40,13 @@ module RMeetup
       # for the request.
       def fetch(options = {})
         url = build_url(options)
-        
-        json = get_response(url)
+
+        response = get_response(url)
+        json = response.body
         data = JSON.parse(json) rescue {}
         
         # Check to see if the api returned an error
-        raise ApiError.new('Received no data', url) if data.is_a? Hash and data.empty?
+        raise ApiError.new("Received no data, header was #{response.to_hash.inspect}", url) if data.is_a? Hash and data.empty?
         raise ApiError.new(data['details'],url) if data.is_a? Hash and data.has_key?('problem')
 
         collection = build_collection(data)
@@ -95,7 +96,7 @@ module RMeetup
         end
         
         def get_response(url)
-          Net::HTTP.get_response(URI.parse(url)).body || raise(NoResponseError.new)
+          Net::HTTP.get_response(URI.parse(url)) || raise(NoResponseError.new)
         end
     end
   end
