@@ -55,6 +55,19 @@ module RMeetup
         collection.map!{|result| format_result(result)}
       end
 
+
+      def replace_url_params(url, options)
+        url unless url.include?(':')
+
+        options.each do |option|
+          if url[":#{option}"]
+            url[":#{option}"] = options.delete option
+          end
+        end
+
+        url
+      end
+
       def build_collection(data)
         RMeetup::Collection.build(data)
       end
@@ -69,12 +82,21 @@ module RMeetup
         end
       
         def build_url(options)
+          url = replace_url_params(base_url, options)
           options = encode_options(options)
+          check_url_for_missing_parameters!(url)
           
-          base_url + params_for(options)
+          url + params_for(options)
         end
-      
-        def base_url
+
+      def check_url_for_missing_parameters!(url)
+        test_match = str.match(/:\w+/)
+        if test_match
+          raise ApiError.new("Need to supply more urlparameters, missing are: #{test_match.to_a.join(', ')}", url)
+        end
+      end
+
+      def base_url
           versioned_url = "#{@api_version}/" if @api_version.to_i > 1
           "https://api.meetup.com/#{versioned_url}#{@type}.json/"
         end
