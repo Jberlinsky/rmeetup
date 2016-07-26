@@ -61,7 +61,7 @@ module RMeetup
 
         options.each_key do |key|
           if url[":#{key}"]
-            url[":#{key}"] = options[key]
+            url[":#{key}"] = options[key].to_s
           end
         end
 
