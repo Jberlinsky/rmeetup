@@ -1,6 +1,6 @@
 module RMeetup
   class Collection < Array
-    attr_accessor :page_size, :total_results
+    attr_accessor :page_size, :total_results, :raw_meta
     attr_writer   :current_page
     
     def self.build(response)
@@ -12,6 +12,7 @@ module RMeetup
       collection.page_size = request_parameters['page'] ? request_parameters['page'].to_i : nil
       collection.total_results = response['meta']['total_count'].to_i
       collection.current_page = request_parameters['offset'] ? (request_parameters['offset'].to_i + 1) : 1
+      collection.raw_meta = response['meta']
       
       # Load the collection with all
       # of the results we passed in

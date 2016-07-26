@@ -1,3 +1,5 @@
+require 'link_header'
+
 module RMeetup
   module Fetcher
     class ApiError < StandardError
@@ -18,11 +20,18 @@ module RMeetup
     # will inherit from.
     class Base
       MAX_API_VERSION = nil
+      MIN_API_VERSION = nil
+      SINGULAR_RESOURCE = false
       def initialize(api_version = nil)
         @api_version = if api_version
-          self.class::MAX_API_VERSION && [api_version, self.class::MAX_API_VERSION].min
+           [api_version, self.class::MAX_API_VERSION].min if self.class::MAX_API_VERSION
         else
-          self.class::MAX_API_VERSION
+          # if self.class::MIN_API_VERSION
+          #   self.class::MIN_API_VERSION
+          # else
+          #   self.class::MAX_API_VERSION
+          # end
+          self.class::MIN_API_VERSION ? self.class::MIN_API_VERSION : self.class::MAX_API_VERSION
         end
         @type = nil
       end
@@ -34,19 +43,64 @@ module RMeetup
       # for the request.
       def fetch(options = {})
         url = build_url(options)
-        
-        json = get_response(url)
-        data = JSON.parse(json)
+
+        data = fetch_with_pagination(url)
         
         # Check to see if the api returned an error
-        raise ApiError.new(data['details'],url) if data.has_key?('problem')
-        
-        collection = RMeetup::Collection.build(data)
+
+        raise ApiError.new(data['details'],url) if data.is_a? Hash and data.has_key?('problem')
+
+        collection = build_collection(data)
         
         # Format each result in the collection and return it
-        collection.map!{|result| format_result(result)}
+        if collection.is_a? Hash
+          format_result(collection)
+        else
+          collection.map!{|result| format_result(result)}
+        end
       end
-      
+
+      def fetch_with_pagination(url, data = nil)
+        response = get_response(url)
+        json = response.body
+        data = if data.nil?
+                 JSON.parse(json) rescue {}
+               else
+                 data + JSON.parse(json) rescue {}
+               end
+
+        raise ApiError.new("Received no data, header was #{response.header.to_hash.inspect}", url) if data.is_a? Hash and data.empty?
+
+        if response.header.key? 'link'
+          link_header = LinkHeader.parse(response.header['link'])
+          if next_link = link_header.find_link(['rel', 'next'])
+            return fetch_with_pagination(next_link.href, data)
+          end
+        end
+
+        return data
+      end
+
+      def replace_url_params(url, options)
+        url unless url.include?(':')
+
+        options.each_key do |key|
+          if url[":#{key}"]
+            url[":#{key}"] = options[key].to_s
+          end
+        end
+
+        url
+      end
+
+      def build_collection(data)
+        if self.class::SINGULAR_RESOURCE
+          data
+        else
+          RMeetup::Collection.build(data)
+        end
+      end
+
       protected
         # OVERRIDE this method to format a result section
         # as per Result type.
@@ -57,14 +111,23 @@ module RMeetup
         end
       
         def build_url(options)
+          url = replace_url_params(base_url, options)
           options = encode_options(options)
+          check_url_for_missing_parameters!(url)
           
-          base_url + params_for(options)
+          url + params_for(options)
         end
-      
-        def base_url
+
+      def check_url_for_missing_parameters!(url)
+        test_match = url.match(/:\w+/)
+        if test_match
+          raise ApiError.new("Need to supply more urlparameters, missing are: #{test_match.to_a.join(', ')}", url)
+        end
+      end
+
+      def base_url
           versioned_url = "#{@api_version}/" if @api_version.to_i > 1
-          "http://api.meetup.com/#{versioned_url}#{@type}.json/"
+          "https://api.meetup.com/#{versioned_url}#{@type}.json/"
         end
         
         # Create a query string from an options hash
@@ -84,7 +147,7 @@ module RMeetup
         end
         
         def get_response(url)
-          Net::HTTP.get_response(URI.parse(url)).body || raise(NoResponseError.new)
+          Net::HTTP.get_response(URI.parse(url)) || raise(NoResponseError.new)
         end
     end
   end

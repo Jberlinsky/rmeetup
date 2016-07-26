@@ -33,3 +33,17 @@ describe RMeetup::Client, 'fetching some topics' do
     RMeetup::Client.fetch(@type,{})
   end
 end
+
+describe RMeetup::Client, 'fetching some topics with token' do
+  before do
+    RMeetup::Client.token = API_KEY
+    @topics_fetcher = mock(RMeetup::Fetcher::Topics)
+    @topics_fetcher.stub!(:fetch).and_return([])
+    @type = :topics
+  end
+
+  it 'should try to get a Topic Fetcher' do
+    RMeetup::Fetcher.should_receive(:for).with(@type, nil).and_return(@topics_fetcher)
+    RMeetup::Client.fetch(@type,{})
+  end
+end
