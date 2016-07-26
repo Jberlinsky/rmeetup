@@ -4,7 +4,7 @@ module RMeetup
 
       # == RMeetup::Type::V3::GroupProfile
       #
-      # Data wrapper for a Group fetching response
+      # Data wrapper for a Group Profile fetching response
       # Used to access result attributes as well
       # as programatically fetch relative data types
       # based on this event.

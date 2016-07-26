@@ -6,6 +6,7 @@ require 'rmeetup/fetcher/members'
 require 'rmeetup/fetcher/rsvps'
 require 'rmeetup/fetcher/events'
 require 'rmeetup/fetcher/groups'
+require 'rmeetup/fetcher/group_profile_member'
 require 'rmeetup/fetcher/group_profile_list'
 require 'rmeetup/fetcher/member_groups'
 require 'rmeetup/fetcher/comments'
@@ -40,6 +41,8 @@ module RMeetup
                     Photos.new(api_version)
                   when :group_profile_list
                     GroupProfileList.new(api_version)
+                  when :group_profile_member
+                    GroupProfileMember.new(api_version)
                 end
       end
     end

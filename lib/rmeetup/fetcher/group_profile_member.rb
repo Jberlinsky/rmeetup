@@ -1,11 +1,11 @@
 module RMeetup
   module Fetcher
-    class GroupProfileList < Base
+    class GroupProfileMember < Base
       MAX_API_VERSION = 3
       MIN_API_VERSION = 3
       def initialize(api_version = nil)
         super(api_version) # no support for API versioning yet
-        @type = 'group/members'
+        @type = 'group/members/member_id'
       end
       
       # Turn the result hash into a Group Class
@@ -14,7 +14,7 @@ module RMeetup
       end
 
       def base_url
-        'https://api.meetup.com/:urlname/members'
+        'https://api.meetup.com/:urlname/:member_id'
       end
 
       def build_collection(data)
