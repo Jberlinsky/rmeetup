@@ -74,7 +74,7 @@ module RMeetup
       end
 
       def build_collection(data)
-        if SINGULAR_RESOURCE
+        if self.class::SINGULAR_RESOURCE
           data
         else
           RMeetup::Collection.build(data)
