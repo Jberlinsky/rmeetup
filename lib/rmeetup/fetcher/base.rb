@@ -73,7 +73,7 @@ module RMeetup
 
         if response.header.key? 'link'
           link_header = LinkHeader.parse(response.header['link'])
-          if next_link = link_header.find_link('rel', 'next')
+          if next_link = link_header.find_link(['rel', 'next'])
             return fetch_with_pagination(next_link, data)
           end
         end
