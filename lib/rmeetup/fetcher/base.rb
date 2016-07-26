@@ -19,6 +19,7 @@ module RMeetup
     class Base
       MAX_API_VERSION = nil
       MIN_API_VERSION = nil
+      SINGULAR_RESOURCE = false
       def initialize(api_version = nil)
         @api_version = if api_version
            [api_version, self.class::MAX_API_VERSION].min if self.class::MAX_API_VERSION
@@ -52,7 +53,11 @@ module RMeetup
         collection = build_collection(data)
         
         # Format each result in the collection and return it
-        collection.map!{|result| format_result(result)}
+        if collection.is_a? Hash
+          format_result(result)
+        else
+          collection.map!{|result| format_result(result)}
+        end
       end
 
 
@@ -69,7 +74,11 @@ module RMeetup
       end
 
       def build_collection(data)
-        RMeetup::Collection.build(data)
+        if SINGULAR_RESOURCE
+          data
+        else
+          RMeetup::Collection.build(data)
+        end
       end
 
       protected
