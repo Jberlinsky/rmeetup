@@ -90,7 +90,7 @@ module RMeetup
         end
 
       def check_url_for_missing_parameters!(url)
-        test_match = str.match(/:\w+/)
+        test_match = url.match(/:\w+/)
         if test_match
           raise ApiError.new("Need to supply more urlparameters, missing are: #{test_match.to_a.join(', ')}", url)
         end
