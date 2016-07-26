@@ -59,9 +59,9 @@ module RMeetup
       def replace_url_params(url, options)
         url unless url.include?(':')
 
-        options.each do |option|
-          if url[":#{option}"]
-            url[":#{option}"] = options.delete option
+        options.each_key do |key|
+          if url[":#{key}"]
+            url[":#{key}"] = options.delete key
           end
         end
 
