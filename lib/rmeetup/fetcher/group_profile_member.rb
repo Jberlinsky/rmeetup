@@ -14,7 +14,7 @@ module RMeetup
       end
 
       def base_url
-        'https://api.meetup.com/:urlname/:member_id'
+        'https://api.meetup.com/:urlname/members/:member_id'
       end
 
       def build_collection(data)
