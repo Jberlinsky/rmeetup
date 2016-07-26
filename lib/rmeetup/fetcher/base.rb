@@ -54,7 +54,7 @@ module RMeetup
         
         # Format each result in the collection and return it
         if collection.is_a? Hash
-          format_result(result)
+          format_result(collection)
         else
           collection.map!{|result| format_result(result)}
         end
