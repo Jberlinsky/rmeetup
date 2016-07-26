@@ -1,3 +1,5 @@
+require 'link_header'
+
 module RMeetup
   module Fetcher
     class ApiError < StandardError
@@ -42,12 +44,10 @@ module RMeetup
       def fetch(options = {})
         url = build_url(options)
 
-        response = get_response(url)
-        json = response.body
-        data = JSON.parse(json) rescue {}
+        data = fetch_with_pagination(url)
         
         # Check to see if the api returned an error
-        raise ApiError.new("Received no data, header was #{response.to_hash.inspect}", url) if data.is_a? Hash and data.empty?
+
         raise ApiError.new(data['details'],url) if data.is_a? Hash and data.has_key?('problem')
 
         collection = build_collection(data)
@@ -60,6 +60,26 @@ module RMeetup
         end
       end
 
+      def fetch_with_pagination(url, data = nil)
+        response = get_response(url)
+        json = response.body
+        data = if data.nil?
+                 JSON.parse(json) rescue {}
+               else
+                 data + JSON.parse(json) rescue {}
+               end
+
+        raise ApiError.new("Received no data, header was #{response.header.to_hash.inspect}", url) if data.is_a? Hash and data.empty?
+
+        if response.header.key? 'link'
+          link_header = LinkHeader.parse(response.header['link'])
+          if next_link = link_header.find_link('rel', 'next')
+            return fetch_with_pagination(next_link, data)
+          end
+        end
+
+        return data
+      end
 
       def replace_url_params(url, options)
         url unless url.include?(':')
